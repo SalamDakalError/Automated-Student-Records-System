@@ -56,16 +56,12 @@ session_start();
       <!-- STATS CARDS -->
       <div class="stats">
         <div class="card">
-          <p>Total Enrolled Students</p>
-          <div class="blue-line"></div>
-        </div>
-        <div class="card">
           <p>Total Pending</p>
-          <div class="blue-line"></div>
+          <div class="blue-line" id="totalPending">—</div>
         </div>
         <div class="card">
           <p>Total Files</p>
-          <div class="blue-line"></div>
+          <div class="blue-line" id="totalFiles">—</div>
         </div>
       </div>
       <!-- FILES TABLE -->
@@ -93,9 +89,33 @@ session_start();
   <script src="scriptPrincipal.js"></script>
   <script>
     console.log('Principal Dashboard inline script loaded');
-    // Load all files when page loads
+    // Load all files and dashboard counts when page loads
     window.addEventListener('load', function() {
-      console.log('Page fully loaded, fetching all files...');
+      console.log('Page fully loaded, fetching all files and counts...');
+      
+      // Load dashboard counts
+      fetch('../Adviser/get_principal_dashboard_counts.php')
+        .then(response => {
+          if (!response.ok) throw new Error('Network response not ok');
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            const totalPendingEl = document.getElementById('totalPending');
+            const totalFilesEl = document.getElementById('totalFiles');
+            if (totalPendingEl) totalPendingEl.textContent = data.total_pending ?? '0';
+            if (totalFilesEl) totalFilesEl.textContent = data.total_files ?? '0';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading dashboard counts:', error);
+          const totalPendingEl = document.getElementById('totalPending');
+          const totalFilesEl = document.getElementById('totalFiles');
+          if (totalPendingEl) totalPendingEl.textContent = '—';
+          if (totalFilesEl) totalFilesEl.textContent = '—';
+        });
+      
+      // Load files table
       fetch('../Adviser/list_files_principal.php?dashboard=1')
         .then(response => {
           console.log('Response received:', response.status);

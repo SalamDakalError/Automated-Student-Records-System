@@ -204,22 +204,12 @@ body {
   font-weight: 700;
 }
 
-/* Blue line styling */
-.empty-line {
-  display: inline-block !important;
-  width: 30px !important;
-  height: 3px !important;
-  background-color: #1976d2 !important;
-  border-radius: 2px !important;
-  vertical-align: middle !important;
-}
-
+/* Blue line styling - removed, now shows large number */
 .blue-line {
   display: block;
-  width: 30px;
-  height: 3px;
-  background-color: #1976d2;
-  border-radius: 2px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1976d2;
   margin-top: 8px;
 }
 
