@@ -32,7 +32,15 @@
       if (fileTableBody) {
         console.log('Dashboard page detected, loading files...'); // Debug log
         loadDashboardFiles();
-        loadStudentCount();
+        // Only load counts if they are not already rendered by the page
+        const studentCountEl = document.getElementById('studentCount');
+        const fileCountEl = document.getElementById('fileCount');
+        const needCounts = !studentCountEl || ['—', '', '0'].includes(studentCountEl.textContent.trim());
+        if (needCounts) {
+          loadStudentCount();
+        } else {
+          console.log('Counts already present on page, skipping fetch to avoid overwrite');
+        }
       }
   
       // If we're on the students page, support selecting approved files and showing imported rows
@@ -51,6 +59,10 @@
           })
           .then(data => {
             if (!data || !data.success) { console.warn('No approved files or success=false', data); return; }
+            // Clear existing options except the first placeholder
+            while (approvedSelect.options.length > 1) {
+              approvedSelect.remove(1);
+            }
             data.files.forEach(f => {
               const opt = document.createElement('option');
               // prefer file_path basename when available to construct table name reliably
@@ -92,7 +104,8 @@
               studentTbody.innerHTML = '';
               importedRows.forEach((r, idx) => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = '<td>' + (idx+1) + '</td>' + '<td>' + (r.student_name || '') + '</td>' + '<td>' + (r.final_grade ?? r.final ?? '') + '</td>';
+                const grade = r.final_grade ?? r.final ?? '—';
+                tr.innerHTML = '<td>' + (idx+1) + '</td>' + '<td>' + (r.student_name || '') + '</td>' + '<td>' + grade + '</td>';
                 tr.dataset.studentName = r.student_name || '';
                 studentTbody.appendChild(tr);
               });
@@ -177,7 +190,8 @@
 
       if (!studentCountEl && !fileCountEl) return;
 
-      fetch('../Adviser/get_dashboard_counts.php?teacher=1', { credentials: 'same-origin' })
+      // Use teacher-specific endpoint and same-origin credentials
+      fetch('../Adviser/get_teacher_dashboard_counts.php?teacher=1', { credentials: 'same-origin' })
         .then(r => {
           if (!r.ok) throw new Error('Network response not ok: ' + r.status);
           const ct = r.headers.get('content-type') || '';

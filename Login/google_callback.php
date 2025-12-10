@@ -45,7 +45,7 @@ if ($user) {
     $_SESSION['name'] = $user['name'];
     $redirects = [
         'adviser'   => '../Adviser/adviserDashboard.php',
-        'teacher'   => '../Teacher/teacherDashboard.php',
+        'teacher'   => '../Teacher/teacher_Dashboard.php',
         'principal' => '../Principal/principalDashboard.php',
         'admin'     => '../Admin/adminDashboard.php'
     ];

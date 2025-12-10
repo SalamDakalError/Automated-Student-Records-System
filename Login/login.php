@@ -3,7 +3,7 @@ require_once 'db.php';
 
 $redirects = [
     'adviser'   => '../Adviser/adviserDashboard.php',
-    'teacher'   => '../Teacher/teacherDashboard.php',
+    'teacher'   => '../Teacher/teacher_dashboard.php',
     'principal' => '../Principal/principalDashboard.php',
     'admin'     => '../Admin/adminDashboard.php'
 ];
