@@ -170,12 +170,33 @@
       }
     }
 
-    // Placeholder for loading student count (implement as needed)
+    // Load student and file counts for the dashboard
     function loadStudentCount() {
-      // This can be expanded later to fetch actual student count
       const studentCountEl = document.getElementById('studentCount');
       const fileCountEl = document.getElementById('fileCount');
-      
-      if (studentCountEl) studentCountEl.textContent = '—';
-      if (fileCountEl) fileCountEl.textContent = '—';
+
+      if (!studentCountEl && !fileCountEl) return;
+
+      fetch('../Adviser/get_dashboard_counts.php?teacher=1', { credentials: 'same-origin' })
+        .then(r => {
+          if (!r.ok) throw new Error('Network response not ok: ' + r.status);
+          const ct = r.headers.get('content-type') || '';
+          if (ct.includes('application/json')) return r.json();
+          return r.text().then(t => { try { return JSON.parse(t); } catch(e) { throw new Error('Invalid JSON response: ' + t); } });
+        })
+        .then(data => {
+          if (!data || !data.success) {
+            if (studentCountEl) studentCountEl.textContent = '—';
+            if (fileCountEl) fileCountEl.textContent = '—';
+            console.warn('Failed to load dashboard counts', data);
+            return;
+          }
+          if (studentCountEl) studentCountEl.textContent = data.student_count ?? '0';
+          if (fileCountEl) fileCountEl.textContent = data.file_count ?? '0';
+        })
+        .catch(err => {
+          console.error('Error loading dashboard counts:', err);
+          if (studentCountEl) studentCountEl.textContent = '—';
+          if (fileCountEl) fileCountEl.textContent = '—';
+        });
     }

@@ -216,3 +216,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // advisory upload handled by modal in advisory.php
 });
+
+// Load dashboard counts for adviser
+function loadDashboardCounts() {
+  const studentCountEl = document.getElementById('studentCount');
+  const fileCountEl = document.getElementById('fileCount');
+  const honorstudentEl = document.getElementById('honorstudent');
+
+  if (!studentCountEl && !fileCountEl && !honorstudentEl) return;
+
+  fetch('get_dashboard_counts.php?teacher=1', { credentials: 'same-origin' })
+    .then(r => {
+      if (!r.ok) throw new Error('Network response not ok: ' + r.status);
+      const ct = r.headers.get('content-type') || '';
+      if (ct.includes('application/json')) return r.json();
+      return r.text().then(t => { try { return JSON.parse(t); } catch(e) { throw new Error('Invalid JSON response: ' + t); } });
+    })
+    .then(data => {
+      if (!data || !data.success) {
+        if (studentCountEl) studentCountEl.textContent = '—';
+        if (fileCountEl) fileCountEl.textContent = '—';
+        if (honorstudentEl) honorstudentEl.textContent = '—';
+        console.warn('Failed to load dashboard counts', data);
+        return;
+      }
+      if (studentCountEl) studentCountEl.textContent = data.student_count ?? '0';
+      if (fileCountEl) fileCountEl.textContent = data.file_count ?? '0';
+      if (honorstudentEl) honorstudentEl.textContent = data.honors_count ?? '0';
+    })
+    .catch(err => {
+      console.error('Error loading dashboard counts:', err);
+      if (studentCountEl) studentCountEl.textContent = '—';
+      if (fileCountEl) fileCountEl.textContent = '—';
+      if (honorstudentEl) honorstudentEl.textContent = '—';
+    });
+}

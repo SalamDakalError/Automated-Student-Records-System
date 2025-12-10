@@ -112,9 +112,9 @@ session_start();
   <script src="scriptAdviser.js"></script>
   <script>
     console.log('Adviser Dashboard inline script loaded');
-    // Load files for the logged-in adviser when page loads
+    // Load files and dashboard counts for the logged-in adviser when page loads
     window.addEventListener('load', function() {
-      console.log('Page fully loaded, fetching files...');
+      console.log('Page fully loaded, fetching files and counts...');
       fetch('./list_files_teacher_adviser.php?teacher=1&dashboard=1')
         .then(response => {
           console.log('Response received:', response.status);
@@ -137,6 +137,9 @@ session_start();
             tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888;">Error loading files</td></tr>';
           }
         });
+      
+      // Load dashboard counts
+      loadDashboardCounts();
     });
   </script>
 </body>
