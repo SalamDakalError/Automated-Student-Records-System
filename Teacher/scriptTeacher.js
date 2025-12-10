@@ -132,7 +132,16 @@
           if (selectedImportedTable) {
             // Fetch single student from import table to avoid mismatches caused by extra columns
             gradesTbody.innerHTML = '';
-            fetch('../Adviser/get_student_from_import.php?table=' + encodeURIComponent(selectedImportedTable) + '&student_name=' + encodeURIComponent(studentName))
+            // Get the subject from the selected option's text (which includes subject name)
+            const selectedOption = approvedSelect.options[approvedSelect.selectedIndex];
+            const optionText = selectedOption ? selectedOption.textContent : '';
+            // Extract subject from the text (it's after the " — " separator)
+            let subjectToPass = '';
+            const dashIdx = optionText.indexOf(' — ');
+            if (dashIdx > 0) {
+              subjectToPass = optionText.substring(dashIdx + 3).trim();
+            }
+            fetch('../Adviser/get_student_from_import.php?table=' + encodeURIComponent(selectedImportedTable) + '&student_name=' + encodeURIComponent(studentName) + (subjectToPass ? '&subject=' + encodeURIComponent(subjectToPass) : ''))
               .then(r => r.json())
               .then(d => {
                 if (!gradesTbody) return;

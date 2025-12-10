@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
 
 $table = isset($_GET['table']) ? $_GET['table'] : '';
 $student = isset($_GET['student_name']) ? $_GET['student_name'] : '';
+$subject = isset($_GET['subject']) ? trim($_GET['subject']) : '';
 if (empty($table) || !preg_match('/^[A-Za-z0-9_]+$/', $table) || $student === ''){
     echo json_encode(['success'=>false,'error'=>'Missing parameters']);
     exit;
@@ -62,8 +63,26 @@ try {
         $row = $found;
     }
 
-    // derive subject from table name (replace underscores with spaces)
-    $subject = trim(str_replace('_', ' ', $table));
+    // Try to find the actual subject from teacher_files table using the table name
+    // The table name is derived from filename, so we try to match it
+    if (empty($subject)) {
+        try {
+            $sfStmt = $pdo->prepare('SELECT subject FROM teacher_files WHERE file_path LIKE ? LIMIT 1');
+            // Try to match by filename: if table is "filename_with_underscores", look for "filename with underscores" in file_path
+            $searchPattern = '%' . str_replace('_', ' ', $table) . '%';
+            $sfStmt->execute([$searchPattern]);
+            $sfRow = $sfStmt->fetch(PDO::FETCH_ASSOC);
+            if ($sfRow && !empty($sfRow['subject'])) {
+                $subject = $sfRow['subject'];
+            } else {
+                // Fallback: derive from table name (replace underscores with spaces)
+                $subject = trim(str_replace('_', ' ', $table));
+            }
+        } catch (Exception $e) {
+            // If teacher_files lookup fails, fallback to deriving from table name
+            $subject = trim(str_replace('_', ' ', $table));
+        }
+    }
 
     // normalize numeric fields
     for ($i=1;$i<=4;$i++) {

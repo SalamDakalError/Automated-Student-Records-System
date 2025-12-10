@@ -46,6 +46,38 @@ if ($subject === '' || $grade_section === ''){
     exit;
 }
 
+// Normalize common subject codes to desired display names
+if ($subject !== '') {
+    $subKey = strtoupper(trim($subject));
+    // map of source code -> desired stored value
+    $subjectMap = [
+        'ESP'  => 'Edukasyon Sa Pagpapakatao',
+        'ENG'  => 'English',
+        'MATH' => 'Mathematics',
+        'AP'   => 'Araling Panlipunan',
+        'FIL'  => 'Filipino',
+        'MAPEH'=> 'MAPEH',
+        'SCI'  => 'Science',
+        // For EPP user requested keep it as "EPP"
+        'EPP'  => 'EPP',
+        'GRMC' => 'GRMC'
+    ];
+
+    // If the submitted subject is exactly one of the codes, map it.
+    if (isset($subjectMap[$subKey])) {
+        $subject = $subjectMap[$subKey];
+    } else {
+        // Sometimes subject may be provided like "Eng - Grade 7" or contain extra text.
+        // Try to extract the first token before any non-letter character and map that.
+        if (preg_match('/^([A-Za-z]+)/', $subKey, $m)) {
+            $first = $m[1];
+            if (isset($subjectMap[$first])) {
+                $subject = $subjectMap[$first];
+            }
+        }
+    }
+}
+
 $uploadsDir = __DIR__ . '/../uploads/teacher_files';
 if (!is_dir($uploadsDir)){
     if (!mkdir($uploadsDir, 0755, true)){
