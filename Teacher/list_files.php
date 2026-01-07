@@ -33,6 +33,13 @@ try{
         }
     }
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Optional debug info: when ?debug=1 is present, emit an HTML comment with session and query info
+    if (isset($_GET['debug']) && $_GET['debug'] == '1') {
+        $sessName = !empty($_SESSION['name']) ? $_SESSION['name'] : '(none)';
+        $count = is_array($rows) ? count($rows) : 0;
+        $q = htmlspecialchars($_SERVER['QUERY_STRING'] ?? '');
+        echo "<!--DEBUG: session_name={$sessName}; rows={$count}; query={$q} -->\n";
+    }
 } catch (Exception $e){
     http_response_code(500);
     echo '<tr><td colspan="5">Error loading files</td></tr>';

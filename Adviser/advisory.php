@@ -100,9 +100,15 @@ if (!empty($assignedAdvisory)) {
     <main class="main-content">
       <section class="content-box active" id="files">
         <div class="section-header">
-          <div>
-            <h2>Advisory</h2>
-            <p style="color: #666;">Overview of Students</p>
+          <div class="title-group">
+            <div>
+              <h2>Advisory</h2>
+              <p style="color: #666;">Overview of Students</p>
+            </div>
+            <div class="search-box">
+              <input type="text" id="advisorySearchInput" placeholder="Search students...">
+              <button id="advisorySearchClear" class="clear-btn" aria-label="Clear search" title="Clear">✖</button>
+            </div>
           </div>
         </div>
 

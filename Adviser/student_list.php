@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adviser | Students</title>
   <link rel="stylesheet" href="styleAdviserDashboard.css">
+  <link rel="stylesheet" href="stylefiles.css">
 </head>
 <body>
 
@@ -46,9 +47,15 @@
     <main class="main-content">
       <section class="content-box active" id="students">
         <div class="section-header">
-          <div>
-            <h2>Students</h2>
-            <p style="color: #666;">Overview of Students</p>
+          <div class="title-group">
+            <div>
+              <h2>Students</h2>
+              <p style="color: #666;">Overview of Students</p>
+            </div>
+            <div class="search-box">
+              <input type="text" id="studentSearchInput" placeholder="Search students...">
+              <button id="studentSearchClear" class="clear-btn" aria-label="Clear search" title="Clear">✖</button>
+            </div>
           </div>
         </div>
 

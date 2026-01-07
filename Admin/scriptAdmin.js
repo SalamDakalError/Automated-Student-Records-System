@@ -30,8 +30,9 @@ function initAdmin() {
   // Sign out button
   const signoutBtn = document.getElementById('signoutBtn');
   if (signoutBtn) {
-    signoutBtn.addEventListener('click', function() {
-      if (confirm('Are you sure you want to log out?')) {
+    signoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('Are you sure you want to sign out?')) {
         window.location.href = '../Login/logout.php';
       }
     });

@@ -5,56 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Principal - Files</title>
-  <link rel="stylesheet" href="stylePrincipalDashboard.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="principal_files.css?v=<?php echo time(); ?>">
-  <style>
-    /* Loading Animation Styles */
-    .loading-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .loading-overlay.show {
-      display: flex;
-    }
-
-    .loading-spinner {
-      background-color: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #3498db;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 15px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      color: #333;
-      font-size: 14px;
-      font-weight: 500;
-    }
-  </style>
+  <link rel="stylesheet" href="stylePrincipalDashboard.css">
+  <link rel="stylesheet" href="principal_files.css">
 </head>
 <body>
 
@@ -104,9 +56,12 @@
         <p>Manage and review submitted files</p>
       </div>
 
+      <!-- SEARCH BAR (outside files-section) -->
+      <div class="search-box" style="margin-bottom:18px; max-width:320px;">
+        <input type="text" id="principalFileSearchInput" placeholder="Search files..." style="width:100%; padding:10px 14px; border-radius:10px; border:1.5px solid #e0e0e0; background:#fafbfc; font-size:1em; box-sizing:border-box; outline:none; transition:border 0.2s;">
+      </div>
       <!-- FILES TABLE -->
       <div class="files-section">
-        <h3>FILES</h3>
         <table class="files-table">
           <thead>
             <tr>
@@ -117,104 +72,81 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="filesTableBody">
-            <tr><td colspan="5" class="no-data">Loading files...</td></tr>
+          <tbody id="principalFileTableBody">
+            <!-- Data from database will load here -->
           </tbody>
         </table>
       </div>
     </main>
   </div>
 
-  <!-- LOADING OVERLAY -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner">
-      <div class="spinner"></div>
-      <p class="loading-text">Processing file...</p>
-    </div>
-  </div>
-
   <script>
-    // Load files on page load
-    function loadFiles() {
-      fetch('principal_list_files.php')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('filesTableBody').innerHTML = html;
-          attachApproveRejectHandlers();
-        })
-        .catch(err => {
-          document.getElementById('filesTableBody').innerHTML = '<tr><td colspan="5" class="no-data" style="color:red;">Error loading files</td></tr>';
-        });
-    }
-
-    // Attach event listeners to approve/reject buttons
-    function attachApproveRejectHandlers() {
-      document.querySelectorAll('.approve-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const fileId = this.getAttribute('data-file-id');
-          if (confirm('Are you sure you want to approve this file?')) {
-            updateFileStatus(fileId, 'approve');
-          }
-        });
-      });
-
-      document.querySelectorAll('.reject-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const fileId = this.getAttribute('data-file-id');
-          if (confirm('Are you sure you want to reject this file?')) {
-            updateFileStatus(fileId, 'reject');
-          }
-        });
-      });
-    }
-
-    // Update file status via AJAX
-    function updateFileStatus(fileId, action) {
-      // Show loading overlay
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      if (loadingOverlay) {
-        loadingOverlay.classList.add('show');
-      }
-
-      fetch('principal_update_file.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'action=' + action + '&file_id=' + fileId
-      })
-        .then(res => res.json())
-        .then(data => {
-          // Hide loading overlay
-          if (loadingOverlay) {
-            loadingOverlay.classList.remove('show');
-          }
-
-          if (data.success) {
-            // Reload files to reflect changes
-            loadFiles();
-          } else {
-            alert('Error: ' + (data.error || 'Unknown error'));
-          }
-        })
-        .catch(err => {
-          // Hide loading overlay
-          if (loadingOverlay) {
-            loadingOverlay.classList.remove('show');
-          }
-
-          alert('Failed to update file: ' + err.message);
-        });
-    }
-
-    // Sign out functionality
     document.addEventListener('DOMContentLoaded', function() {
-      loadFiles();
-
-      const signoutBtn = document.getElementById('signoutBtn');
+      // Sign out functionality
+      var signoutBtn = document.getElementById('signoutBtn');
       if (signoutBtn) {
         signoutBtn.addEventListener('click', function() {
-          if (confirm('Are you sure you want to sign out?')) {
+          if(confirm('Are you sure you want to sign out?')) {
             window.location.href = '../Login/logout.php';
           }
+        });
+      }
+
+      // Principal file search logic
+      const searchInput = document.getElementById('principalFileSearchInput');
+      const searchClear = document.getElementById('principalFileSearchClear');
+      const tableBody = document.getElementById('principalFileTableBody');
+      let searchTimeout;
+
+      async function loadPrincipalFiles(q = '') {
+        if (tableBody) tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:12px;">Loading...</td></tr>';
+        const url = 'search_principal_files.php' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+        const res = await fetch(url, { cache: 'no-store' });
+        const html = await res.text();
+        if (tableBody) tableBody.innerHTML = html;
+        attachActionHandlers();
+      }
+
+      function attachActionHandlers() {
+        document.querySelectorAll('.approve-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            if(confirm('Are you sure you want to approve this file?')) {
+              const row = this.closest('tr');
+              const statusCell = row.querySelector('.status');
+              statusCell.textContent = 'Approved';
+              statusCell.classList.remove('pending');
+              statusCell.classList.add('approve');
+              this.closest('.actions-cell').innerHTML = '<span class="no-action">—</span>';
+              // TODO: Add backend update for approval
+            }
+          });
+        });
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            if(confirm('Are you sure you want to reject this file?')) {
+              const row = this.closest('tr');
+              row.remove(); // Or update status to rejected
+              // TODO: Add backend update for rejection
+            }
+          });
+        });
+      }
+
+      // Initial load
+      loadPrincipalFiles();
+
+      if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => loadPrincipalFiles(searchInput.value.trim()), 200);
+        });
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); clearTimeout(searchTimeout); loadPrincipalFiles(searchInput.value.trim()); }
+        });
+      }
+      if (searchClear && searchInput) {
+        searchClear.addEventListener('click', function(e) {
+          e.preventDefault(); searchInput.value = ''; searchInput.focus(); loadPrincipalFiles('');
         });
       }
     });

@@ -14,6 +14,74 @@
   color: #333;
 }
 
+/* Search box styling for files page */
+.search-box {
+  display: flex;
+  align-items: center;
+}
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-box input {
+  flex: 1 1 260px;
+  max-width: 420px;
+  padding: 8px 36px 8px 12px; /* space for clear button */
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fff;
+  transition: box-shadow 0.12s ease, border-color 0.12s ease, transform 0.08s;
+}
+.search-box input:focus {
+  border-color: #2b7be4;
+  box-shadow: 0 6px 18px rgba(43,123,228,0.08);
+  transform: translateY(-0.5px);
+}
+.search-box .clear-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #666;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  opacity: 0.0;
+  pointer-events: none;
+  transition: opacity 0.12s ease, background-color 0.12s ease, color 0.12s ease;
+}
+.search-box input:not(:placeholder-shown) + .clear-btn,
+.search-box input:focus + .clear-btn {
+  opacity: 1.0;
+  pointer-events: auto;
+}
+.search-box .clear-btn:hover {
+  background-color: rgba(0,0,0,0.06);
+  color: #222;
+}
+
+/* Title group stacks heading and search input */
+.section-header .title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* slightly reduce spacing on small screens */
+@media (max-width: 900px) {
+  .section-header .title-group { gap: 6px; }
+}
+
 /* New File Button */
 .new-file-btn {
   background-color: #007bff;

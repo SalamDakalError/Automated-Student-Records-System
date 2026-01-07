@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Sign out button handling
   const signoutBtn = document.getElementById('signoutBtn');
   if (signoutBtn) {
-    signoutBtn.addEventListener('click', function() {
-      // Navigate to logout.php which destroys the session and redirects
-      window.location.href = '../Login/logout.php';
+    signoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('Are you sure you want to sign out?')) {
+        window.location.href = '../Login/logout.php';
+      }
     });
   }
 
@@ -91,6 +93,68 @@ document.addEventListener('DOMContentLoaded', function() {
         }).catch(()=>{});
     });
   }
+
+  // Files page: live search and initial load for files table
+  const fileSearchInput = document.getElementById('fileSearchInput');
+  const filesTableBody = document.getElementById('filesTableBody');
+  let fileSearchTimeout;
+
+  async function loadFiles(query) {
+    if (!filesTableBody) return;
+    const params = new URLSearchParams();
+    // On Adviser files page we want files for the logged-in teacher
+    params.set('teacher', '1');
+    if (query) params.set('q', query);
+    try {
+      filesTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:15px;">Loading...</td></tr>';
+      const res = await fetch('list_files.php?' + params.toString(), { cache: 'no-store' });
+      if (!res.ok) {
+        filesTableBody.innerHTML = '<tr><td colspan="5" class="no-data">Server error</td></tr>';
+        return;
+      }
+      const html = await res.text();
+      if (!html || html.trim().length === 0) {
+        filesTableBody.innerHTML = '<tr><td colspan="5" class="no-data">No files found</td></tr>';
+      } else {
+        filesTableBody.innerHTML = html;
+      }
+    } catch (err) {
+      console.error('Failed to load files:', err);
+      filesTableBody.innerHTML = '<tr><td colspan="5" class="no-data">Error loading files</td></tr>';
+    }
+  }
+
+  if (fileSearchInput) {
+    fileSearchInput.addEventListener('input', function(e) {
+      clearTimeout(fileSearchTimeout);
+      const v = e.target.value.trim();
+      fileSearchTimeout = setTimeout(() => loadFiles(v), 200);
+    });
+  }
+
+  // Clear button handling and Enter key search
+  const fileSearchClear = document.getElementById('fileSearchClear');
+  if (fileSearchClear && fileSearchInput) {
+    // show/hide handled by CSS, but also keep accessibility: enable/disable pointerEvents
+    fileSearchClear.addEventListener('click', function(e) {
+      e.preventDefault();
+      fileSearchInput.value = '';
+      fileSearchInput.focus();
+      loadFiles('');
+    });
+
+    // Enter key triggers an immediate search
+    fileSearchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        clearTimeout(fileSearchTimeout);
+        loadFiles(fileSearchInput.value.trim());
+      }
+    });
+  }
+
+  // Initial load for files table if on files page
+  if (filesTableBody) loadFiles('');
 
   function closeModal() {
     if (modal) modal.style.display = 'none';
@@ -260,4 +324,93 @@ function loadDashboardCounts() {
       if (fileCountEl) fileCountEl.textContent = '—';
       if (honorstudentEl) honorstudentEl.textContent = '—';
     });
+}
+
+// Advisory student search (client-side filter)
+function initAdvisorySearch() {
+  const advisoryInput = document.getElementById('advisorySearchInput');
+  const advisoryClear = document.getElementById('advisorySearchClear');
+  const tbody = document.getElementById('studentsTbody');
+  if (!advisoryInput || !tbody) return;
+
+  let advisoryTimeout;
+  function applyFilter(q) {
+    q = (q || '').trim().toLowerCase();
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    if (!q) {
+      rows.forEach(r => r.style.display = '');
+      return;
+    }
+    rows.forEach(r => {
+      const tds = r.querySelectorAll('td');
+      if (!tds || tds.length < 2) return;
+      const name = (tds[1].textContent || '').toLowerCase();
+      const grade = (tds[3] ? tds[3].textContent : '') .toLowerCase();
+      const section = (tds[4] ? tds[4].textContent : '').toLowerCase();
+      const show = name.indexOf(q) !== -1 || grade.indexOf(q) !== -1 || section.indexOf(q) !== -1;
+      r.style.display = show ? '' : 'none';
+    });
+  }
+
+  advisoryInput.addEventListener('input', function(e) {
+    clearTimeout(advisoryTimeout);
+    advisoryTimeout = setTimeout(() => applyFilter(e.target.value), 150);
+  });
+
+  advisoryInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      clearTimeout(advisoryTimeout);
+      applyFilter(advisoryInput.value);
+    }
+  });
+
+  if (advisoryClear) {
+    advisoryClear.addEventListener('click', function(e) {
+      e.preventDefault();
+      advisoryInput.value = '';
+      advisoryInput.focus();
+      applyFilter('');
+    });
+  }
+}
+
+// Initialize advisory search on DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAdvisorySearch);
+} else {
+  initAdvisorySearch();
+}
+
+// Students page: search after approved file selected
+function initStudentListSearch() {
+  const input = document.getElementById('studentSearchInput');
+  const clearBtn = document.getElementById('studentSearchClear');
+  const tbody = document.getElementById('studentTableBody');
+  if (!input || !tbody) return;
+
+  let timeout;
+  function apply(q) {
+    q = (q || '').trim().toLowerCase();
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    if (!q) { rows.forEach(r => r.style.display = ''); return; }
+    rows.forEach(r => {
+      const tds = r.querySelectorAll('td');
+      if (!tds || tds.length === 0) return;
+      const name = (tds[1] ? tds[1].textContent : '').toLowerCase();
+      const grade = (tds[2] ? tds[2].textContent : '').toLowerCase();
+      const show = name.indexOf(q) !== -1 || grade.indexOf(q) !== -1;
+      r.style.display = show ? '' : 'none';
+    });
+  }
+
+  input.addEventListener('input', (e) => { clearTimeout(timeout); timeout = setTimeout(()=>apply(e.target.value), 150); });
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); clearTimeout(timeout); apply(input.value); } });
+  if (clearBtn) clearBtn.addEventListener('click', (e) => { e.preventDefault(); input.value = ''; input.focus(); apply(''); });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initStudentListSearch);
+} else {
+  initStudentListSearch();
 }

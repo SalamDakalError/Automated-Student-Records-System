@@ -5,10 +5,12 @@
       // Sign out button handling
       const signoutBtn = document.getElementById('signoutBtn');
       if (signoutBtn) {
-        signoutBtn.addEventListener('click', function() {
-          // Navigate to logout.php which destroys the session and redirects
-          window.location.href = '../Login/logout.php';
-        });
+          signoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to sign out?')) {
+              window.location.href = '../Login/logout.php';
+            }
+          });
       }
 
       // Get all sidebar links
@@ -32,6 +34,22 @@
       if (fileTableBody) {
         console.log('Dashboard page detected, loading files...'); // Debug log
         loadDashboardFiles();
+        // wire up search on files page if present
+        const teacherFileSearchInput = document.getElementById('teacherFileSearchInput');
+        const teacherFileSearchClear = document.getElementById('teacherFileSearchClear');
+        if (teacherFileSearchInput) {
+          let fileTimeout;
+          teacherFileSearchInput.addEventListener('input', function(e) {
+            clearTimeout(fileTimeout);
+            fileTimeout = setTimeout(() => loadDashboardFiles(teacherFileSearchInput.value.trim()), 200);
+          });
+          teacherFileSearchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); clearTimeout(fileTimeout); loadDashboardFiles(teacherFileSearchInput.value.trim()); }
+          });
+          if (teacherFileSearchClear) {
+            teacherFileSearchClear.addEventListener('click', function(e){ e.preventDefault(); teacherFileSearchInput.value = ''; teacherFileSearchInput.focus(); loadDashboardFiles(''); });
+          }
+        }
         // Only load counts if they are not already rendered by the page
         const studentCountEl = document.getElementById('studentCount');
         const fileCountEl = document.getElementById('fileCount');
@@ -93,7 +111,10 @@
           const table = base.replace(/[^A-Za-z0-9_]/g, '_');
           selectedImportedTable = table;
           console.log('fetching imported rows for table=', table);
-          fetch('../Adviser/get_imported_rows_with_grades.php?table=' + encodeURIComponent(table))
+          // Store current search value if any
+          const teacherSearchInput = document.getElementById('teacherStudentSearchInput');
+          const searchVal = teacherSearchInput ? teacherSearchInput.value.trim() : '';
+          fetch('get_imported_rows_with_grades.php?table=' + encodeURIComponent(table) + (searchVal ? ('&q=' + encodeURIComponent(searchVal)) : ''))
             .then(r => r.json())
             .then(d => {
               console.log('imported rows response', d);
@@ -111,6 +132,35 @@
               });
             }).catch((err)=>{ console.error('Error fetching imported rows:', err); });
         });
+
+          // Teacher student search: backend-powered search
+          const teacherSearchInput = document.getElementById('teacherStudentSearchInput');
+          const teacherSearchClear = document.getElementById('teacherStudentSearchClear');
+          if (teacherSearchInput && studentTbody) {
+            let ttimeout;
+            function fetchAndRenderStudents(q) {
+              if (!selectedImportedTable) return;
+              fetch('get_imported_rows_with_grades.php?table=' + encodeURIComponent(selectedImportedTable) + (q ? ('&q=' + encodeURIComponent(q)) : ''))
+                .then(r => r.json())
+                .then(d => {
+                  if (!studentTbody) return;
+                  if (!d.success) { studentTbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#888;">No students available</td></tr>'; return; }
+                  importedRows = d.rows || [];
+                  if (!importedRows.length) { studentTbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#888;">No students available</td></tr>'; return; }
+                  studentTbody.innerHTML = '';
+                  importedRows.forEach((r, idx) => {
+                    const tr = document.createElement('tr');
+                    const grade = r.final_grade ?? r.final ?? '—';
+                    tr.innerHTML = '<td>' + (idx+1) + '</td>' + '<td>' + (r.student_name || '') + '</td>' + '<td>' + grade + '</td>';
+                    tr.dataset.studentName = r.student_name || '';
+                    studentTbody.appendChild(tr);
+                  });
+                });
+            }
+            teacherSearchInput.addEventListener('input', (e) => { clearTimeout(ttimeout); ttimeout = setTimeout(()=>fetchAndRenderStudents(e.target.value.trim()), 150); });
+            teacherSearchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); clearTimeout(ttimeout); fetchAndRenderStudents(teacherSearchInput.value.trim()); } });
+            if (teacherSearchClear) teacherSearchClear.addEventListener('click', (e) => { e.preventDefault(); teacherSearchInput.value=''; teacherSearchInput.focus(); fetchAndRenderStudents(''); });
+          }
       }
 
       // Row click - show overlay modal for imported file grades if modal exists
@@ -155,12 +205,24 @@
                 const subj = d.subject || '';
                 const fmt = v => (v === null || v === undefined || v === '') ? '' : (Math.round(parseFloat(v) * 100) / 100).toFixed(2);
                 const row = document.createElement('tr');
+                let finalVal = m.final ?? m.final;
+                let remarks = '';
+                if (
+                  finalVal !== null &&
+                  finalVal !== undefined &&
+                  finalVal !== '' &&
+                  !isNaN(finalVal) &&
+                  parseFloat(finalVal) !== 0
+                ) {
+                  remarks = parseFloat(finalVal) >= 75 ? 'Passed' : 'Failed';
+                }
                 row.innerHTML = '<td>' + subj + '</td>' +
                                 '<td>' + fmt(m.q1 ?? m.q1) + '</td>' +
                                 '<td>' + fmt(m.q2 ?? m.q2) + '</td>' +
                                 '<td>' + fmt(m.q3 ?? m.q3) + '</td>' +
                                 '<td>' + fmt(m.q4 ?? m.q4) + '</td>' +
-                                '<td>' + fmt(m.final ?? m.final) + '</td>';
+                                '<td>' + fmt(finalVal) + '</td>' +
+                                '<td>' + remarks + '</td>';
                 gradesTbody.appendChild(row);
               }).catch(()=>{
                 gradesTbody.innerHTML = '';
@@ -175,20 +237,23 @@
     });
 
     // Load files for the logged-in teacher
-    async function loadDashboardFiles() {
+    async function loadDashboardFiles(query = '') {
       try {
-        const res = await fetch('../Adviser/list_files.php?teacher=1');
-        const html = await res.text();
-        console.log('Files response:', html); // Debug log
+        const base = '../Adviser/list_files.php?teacher=1';
+        const url = base + (query ? '&q=' + encodeURIComponent(query) : '');
         const tbody = document.getElementById('fileTableBody');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:12px;">Loading...</td></tr>';
+        const res = await fetch(url, { cache: 'no-store' });
+        const html = await res.text();
+        console.log('Files response length:', html.length);
         if (tbody) {
-          tbody.innerHTML = html;
+          tbody.innerHTML = html || '<tr><td colspan="5" class="no-data">No files found</td></tr>';
         }
       } catch (err) {
         console.error('Error loading files:', err);
         const tbody = document.getElementById('fileTableBody');
         if (tbody) {
-          tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888;">Error loading files</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">Error loading files</td></tr>';
         }
       }
     }

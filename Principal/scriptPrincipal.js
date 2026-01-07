@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Sign out button handling
   const signoutBtn = document.getElementById('signoutBtn');
   if (signoutBtn) {
-    signoutBtn.addEventListener('click', function() {
-      // Navigate to logout.php which destroys the session and redirects
-      window.location.href = '../Login/logout.php';
+    signoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('Are you sure you want to sign out?')) {
+        window.location.href = '../Login/logout.php';
+      }
     });
   }
 

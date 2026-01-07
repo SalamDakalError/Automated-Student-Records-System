@@ -20,6 +20,55 @@ try {
     }
     
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // If a query was provided, also search the filesystem directories (Admin and Teacher)
+    if (!empty($query)) {
+        $dirsToSearch = [
+            realpath(__DIR__ . '/../Teacher'),
+            realpath(__DIR__ . '/../Admin')
+        ];
+
+        foreach ($dirsToSearch as $d) {
+            if (!$d || !is_dir($d)) continue;
+
+            $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($d, RecursiveDirectoryIterator::SKIP_DOTS));
+            $excludedExts = ['php','js','css','html','htm','json','md','ts','map','lock','ini','env','gitignore','bat','sh','xml','yml','yaml','sql','log','md','txt'];
+            foreach ($it as $file) {
+                if ($file->isFile()) {
+                    $fname = $file->getFilename();
+                    $ext = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+                    if (in_array($ext, $excludedExts)) continue;
+                    if (stripos($fname, $query) !== false) {
+                        $relative = str_replace(realpath(__DIR__ . '/..') . DIRECTORY_SEPARATOR, '', $file->getPathname());
+                        $rows[] = [
+                            'id' => null,
+                            'teacher_name' => basename($d),
+                            'subject' => '-',
+                            'grade_section' => '-',
+                            'file_name' => $fname,
+                            'file_path' => $relative,
+                            'status' => 'local-file',
+                            'submitted_date' => date('Y-m-d H:i:s', $file->getMTime()),
+                            'approve_date' => null,
+                            'created_at' => $file->getMTime()
+                        ];
+                    }
+                }
+            }
+        }
+
+        // Sort combined results by created_at / file modification time desc
+        usort($rows, function ($a, $b) {
+            $ta = isset($a['created_at']) ? (int)$a['created_at'] : 0;
+            $tb = isset($b['created_at']) ? (int)$b['created_at'] : 0;
+            return $tb <=> $ta;
+        });
+
+        // Trim to limit
+        if (count($rows) > $limit) {
+            $rows = array_slice($rows, 0, $limit);
+        }
+    }
 } catch (Exception $e) {
     http_response_code(500);
     echo '<tr><td colspan="6">Error searching logs</td></tr>';
