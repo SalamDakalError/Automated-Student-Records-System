@@ -81,7 +81,8 @@ if (!empty($_SESSION['name'])) {
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Teacher Dashboard</title>
-  <link rel="stylesheet" href="teacher_style.css">
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Teacher/teacher_style.css">
   <style>
     .sidebar-footer {
       display: flex;
@@ -111,7 +112,7 @@ if (!empty($_SESSION['name'])) {
 <body>
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
     <h1>Teacher</h1>
   </header>
 
@@ -120,16 +121,16 @@ if (!empty($_SESSION['name'])) {
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="menu">
-        <a href="teacher_dashboard.php" class="active">
-          <img src="../assets/dashboard.png" alt="Dashboard Icon">
+        <a href="<?= $base_url ?>Teacher/teacher_dashboard.php" class="active">
+          <img src="<?= $base_url ?>assets/dashboard.png" alt="Dashboard Icon">
           Dashboard
         </a>
-        <a href="teacher_students.php">
-          <img src="../assets/User.png" alt="Students Icon">
+        <a href="<?= $base_url ?>Teacher/teacher_students.php">
+          <img src="<?= $base_url ?>assets/User.png" alt="Students Icon">
           Students
         </a>
-        <a href="teacher_files.php">
-          <img src="../assets/google-docs.png" alt="Files Icon">
+        <a href="<?= $base_url ?>Teacher/teacher_files.php">
+          <img src="<?= $base_url ?>assets/google-docs.png" alt="Files Icon">
           Files
         </a>
       </div>
@@ -147,7 +148,7 @@ if (!empty($_SESSION['name'])) {
         ?>
       </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon"> Sign Out
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon"> Sign Out
         </button>
       </div>
     </aside>
@@ -207,7 +208,7 @@ if (!empty($_SESSION['name'])) {
       const signoutBtn = document.getElementById('signoutBtn');
       if (signoutBtn) {
         signoutBtn.addEventListener('click', function() {
-          window.location.href = '../Login/logout.php';
+          window.location.href = '<?= $base_url ?>Login/logout.php';
         });
       }
     }

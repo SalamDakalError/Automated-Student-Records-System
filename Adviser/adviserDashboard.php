@@ -11,12 +11,13 @@ session_start();
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Adviser Dashboard</title>
-  <link rel="stylesheet" href="styleAdviserDashboard.css">
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/styleAdviserDashboard.css">
 </head>
 <body>
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
     <h1>Adviser</h1>
   </header>
 
@@ -25,20 +26,20 @@ session_start();
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="menu">
-        <a href="adviserDashboard.php" class="active">
-          <img src="../assets/dashboard.png" alt="Dashboard Icon">
+        <a href="<?= $base_url ?>Adviser/adviserDashboard.php" class="active">
+          <img src="<?= $base_url ?>assets/dashboard.png" alt="Dashboard Icon">
           Dashboard
         </a>
-        <a href="student_list.php">
-          <img src="../assets/User.png" alt="Student Icon">
+        <a href="<?= $base_url ?>Adviser/student_list.php">
+          <img src="<?= $base_url ?>assets/User.png" alt="Student Icon">
           Student
         </a>
-        <a href="advisory.php">
-          <img src="../assets/google-docs.png" alt="Advisory Icon">
+        <a href="<?= $base_url ?>Adviser/advisory.php">
+          <img src="<?= $base_url ?>assets/google-docs.png" alt="Advisory Icon">
           Advisory
         </a>
-        <a href="files.php">
-          <img src="../assets/google-docs.png" alt="Files Icon">
+        <a href="<?= $base_url ?>Adviser/files.php">
+          <img src="<?= $base_url ?>assets/google-docs.png" alt="Files Icon">
           Files
         </a>
       </div>
@@ -56,7 +57,7 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon"> Sign Out
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon"> Sign Out
         </button>
       </div>
     </aside>
@@ -109,7 +110,7 @@ session_start();
   </div>
 
   <!-- ===== JAVASCRIPT ===== -->
-  <script src="scriptAdviser.js"></script>
+  <script src="<?= $base_url ?>Adviser/scriptAdviser.js"></script>
   <script>
     console.log('Adviser Dashboard inline script loaded');
     // Load files and dashboard counts for the logged-in adviser when page loads

@@ -27,13 +27,14 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS password_resets (
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Telabastagan Integrated School - Login</title>
-  <link rel="stylesheet" href="styleKKMLogin.css">
+  <?php require_once 'config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Login/styleKKMLogin.css">
 </head>
 <body>
   <div class="login-container">
     <!-- Left Side (Form Section) -->
     <div class="login-left">
-      <img src="../assets/OIP.png" class="school-logo" alt="School Logo">
+      <img src="<?= $base_url ?>assets/OIP.png" class="school-logo" alt="School Logo">
 
       <h2>Welcome Back</h2>
       <p class="subtitle">Welcome back! Please enter your details</p>
@@ -58,12 +59,12 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS password_resets (
 
         <div class="options">
           <label><input type="checkbox" name="chkRemember"> Remember me</label>
-          <a href="forgot_password.php">Forgot password?</a>
+          <a href="<?= $base_url ?>Login/forgot_password.php">Forgot password?</a>
         </div>
 
         <button type="submit" name="btnSignIn" class="signin-btn">Sign In</button>
 
-        <button type="button" class="google-btn" onclick="window.location.href='google_login.php'">
+        <button type="button" class="google-btn" onclick="window.location.href='<?= $base_url ?>Login/google_login.php'">
           <img src="https://www.svgrepo.com/show/355037/google.svg" width="18" alt="">
           Sign in with Google
         </button>

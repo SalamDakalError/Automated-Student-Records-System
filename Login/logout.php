@@ -21,6 +21,7 @@ if (ini_get('session.use_cookies')) {
 session_unset();
 session_destroy();
 
+require_once 'config.php';
 // Redirect back to login page
-header('Location: loginpage.php');
+header('Location: ' . $base_url . 'Login/loginpage.php');
 exit();

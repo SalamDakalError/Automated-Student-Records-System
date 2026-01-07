@@ -12,7 +12,7 @@ if (!class_exists('Google_Client')) {
 }
 
 if (!isset($_GET['code'])) {
-    header('Location: loginpage.php?error=' . urlencode('Google login failed.'));
+    header('Location: ' . $base_url . 'Login/loginpage.php?error=' . urlencode('Google login failed.'));
     exit();
 }
 
@@ -23,7 +23,7 @@ $client->setRedirectUri(GOOGLE_REDIRECT_URI);
 
 $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
 if (isset($token['error'])) {
-    header('Location: loginpage.php?error=' . urlencode('Google login error.'));
+    header('Location: ' . $base_url . 'Login/loginpage.php?error=' . urlencode('Google login error.'));
     exit();
 }
 
@@ -44,19 +44,19 @@ if ($user) {
     $_SESSION['role'] = $user['role'];
     $_SESSION['name'] = $user['name'];
     $redirects = [
-        'adviser'   => '../Adviser/adviserDashboard.php',
-        'teacher'   => '../Teacher/teacher_Dashboard.php',
-        'principal' => '../Principal/principalDashboard.php',
-        'admin'     => '../Admin/adminDashboard.php'
+        'adviser'   => $base_url . 'Adviser/adviserDashboard.php',
+        'teacher'   => $base_url . 'Teacher/teacher_dashboard.php',
+        'principal' => $base_url . 'Principal/principalDashboard.php',
+        'admin'     => $base_url . 'Admin/adminDashboard.php'
     ];
     if (isset($redirects[$user['role']])) {
         header('Location: ' . $redirects[$user['role']]);
         exit();
     }
-    header('Location: loginpage.php?error=' . urlencode('No dashboard mapped for role.'));
+    header('Location: ' . $base_url . 'Login/loginpage.php?error=' . urlencode('No dashboard mapped for role.'));
     exit();
 } else {
     // No user with that email - do not auto-create for security. Show helpful message.
-    header('Location: loginpage.php?error=' . urlencode('No account found for that Google account. Please contact administrator.'));
+    header('Location: ' . $base_url . 'Login/loginpage.php?error=' . urlencode('No account found for that Google account. Please contact administrator.'));
     exit();
 }

@@ -60,7 +60,7 @@ $email = $_GET['email'] ?? '';
 <body>
   <div class="login-container">
     <div class="login-left">
-      <img src="../assets/OIP.png" class="school-logo" alt="School Logo">
+      <img src="<?= $base_url ?>assets/OIP.png" class="school-logo" alt="School Logo">
       <h2>Reset your password</h2>
       <p class="subtitle">Enter the 6-digit verification code we sent to your email.</p>
 
@@ -89,7 +89,7 @@ $email = $_GET['email'] ?? '';
 
         <div class="actions">
           <button type="submit" class="signin-btn">Verify code</button>
-          <button type="button" class="secondary-link" onclick="window.location.href='loginpage.php'">Back to sign in</button>
+          <button type="button" class="secondary-link" onclick="window.location.href='<?= $base_url ?>Login/loginpage.php'">Back to sign in</button>
         </div>
       </form>
     </div>

@@ -8,24 +8,25 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Principal Dashboard</title>
-  <link rel="stylesheet" href="stylePrincipalDashboard.css?v=<?php echo time(); ?>">
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Principal/stylePrincipalDashboard.css?v=<?= time(); ?>">
 </head>
 <body>
   <!-- HEADER BAR -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="DepEd Logo">
+    <img src="<?= $base_url ?>assets/OIP.png" alt="DepEd Logo">
     <h1>Principal</h1>
   </header>
   <div class="dashboard-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <nav class="menu">
-        <a href="principal_dashboard.php" class="active">
-          <img src="../assets/dashboard.png" alt="Dashboard Icon">
+        <a href="<?= $base_url ?>Principal/principalDashboard.php" class="active">
+          <img src="<?= $base_url ?>assets/dashboard.png" alt="Dashboard Icon">
           Dashboard
         </a>
-        <a href="principal_files.php">
-          <img src="../assets/google-docs.png" alt="Files Icon">
+        <a href="<?= $base_url ?>Principal/principal_files.php">
+          <img src="<?= $base_url ?>assets/google-docs.png" alt="Files Icon">
           Files
         </a>
       </nav>
@@ -42,7 +43,7 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon">
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon">
           Sign Out
         </button>
       </div>
@@ -86,7 +87,7 @@ session_start();
     </main>
   </div>
   <!-- JavaScript -->
-  <script src="scriptPrincipal.js"></script>
+  <script src="<?= $base_url ?>Principal/scriptPrincipal.js"></script>
   <script>
     console.log('Principal Dashboard inline script loaded');
     // Load all files and dashboard counts when page loads

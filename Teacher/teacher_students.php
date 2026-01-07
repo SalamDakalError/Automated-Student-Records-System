@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teacher | Students</title>
-  <link rel="stylesheet" href="teacher_style.css">
-  <link rel="stylesheet" href="../Adviser/stylefiles.css">
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Teacher/teacher_style.css">
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/stylefiles.css">
 </head>
 <body>
 
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
     <h1>Teacher</h1>
   </header>
 
@@ -21,9 +22,9 @@
     
     <aside class="sidebar">
       <div class="menu">
-        <a href="teacher_dashboard.php"><img src="../assets/dashboard.png" alt="">Dashboard</a>
-        <a href="teacher_students.php" class="active"><img src="../assets/User.png" alt="">Students</a>
-        <a href="teacher_files.php"><img src="../assets/google-docs.png" alt="">Files</a>
+        <a href="<?= $base_url ?>Teacher/teacher_dashboard.php"><img src="<?= $base_url ?>assets/dashboard.png" alt="">Dashboard</a>
+        <a href="<?= $base_url ?>Teacher/teacher_students.php" class="active"><img src="<?= $base_url ?>assets/User.png" alt="">Students</a>
+        <a href="<?= $base_url ?>Teacher/teacher_files.php"><img src="<?= $base_url ?>assets/google-docs.png" alt="">Files</a>
       </div>
 
       <div class="sidebar-footer">
@@ -37,7 +38,7 @@
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon">
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon">
           Sign Out
         </button>
       </div>
@@ -117,6 +118,6 @@
   </div>
 
   <!-- ===== JAVASCRIPT FILE LINK ===== -->
-  <script src="scriptTeacher.js"></script>
+  <script src="<?= $base_url ?>Teacher/scriptTeacher.js"></script>
 </body>
 </html>

@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adviser | Students</title>
-  <link rel="stylesheet" href="styleAdviserDashboard.css">
-  <link rel="stylesheet" href="stylefiles.css">
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/styleAdviserDashboard.css">
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/stylefiles.css">
 </head>
 <body>
 
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
     <h1>Adviser</h1>
   </header>
 
@@ -21,10 +22,10 @@
     
     <aside class="sidebar">
       <div class="menu">
-        <a href="adviserDashboard.php"><img src="../assets/dashboard.png" alt="">Dashboard</a>
-        <a href="student_list.php" class="active"><img src="../assets/User.png" alt="">Students</a>
-        <a href="advisory.php"><img src="../assets/google-docs.png" alt="">Advisory</a>
-        <a href="files.php"><img src="../assets/google-docs.png" alt="">Files</a>
+        <a href="<?= $base_url ?>Adviser/adviserDashboard.php"><img src="<?= $base_url ?>assets/dashboard.png" alt="">Dashboard</a>
+        <a href="<?= $base_url ?>Adviser/student_list.php" class="active"><img src="<?= $base_url ?>assets/User.png" alt="">Students</a>
+        <a href="<?= $base_url ?>Adviser/advisory.php"><img src="<?= $base_url ?>assets/google-docs.png" alt="">Advisory</a>
+        <a href="<?= $base_url ?>Adviser/files.php"><img src="<?= $base_url ?>assets/google-docs.png" alt="">Files</a>
       </div>
 
       <div class="sidebar-footer">
@@ -38,7 +39,7 @@
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon">
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon">
           Sign Out
         </button>
       </div>
@@ -117,6 +118,6 @@
   </div>
 
   <!-- ===== JAVASCRIPT FILE LINK ===== -->
-  <script src="scriptAdviser.js"></script>
+  <script src="<?= $base_url ?>Adviser/scriptAdviser.js"></script>
 </body>
 </html>

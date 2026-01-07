@@ -18,8 +18,13 @@ define('SMTP_SECURE', 'tls');
 define('MAIL_FROM', 'johnpaulmanarang07@gmail.com');
 define('MAIL_FROM_NAME', 'School Admin');
 
-// Site URL
-define('SITE_BASE', 'http://localhost/Automated-Student-Records-Processing-System-main');
+
+// Site URL (update for IIS deployment)
+// Use '/' if deployed at root, or '/subfolder/' if in a subfolder
+define('SITE_BASE', '/');
+
+// Base URL variable for easy path management in PHP
+$base_url = SITE_BASE;
 
 // Note: Install dependencies: run
 // composer require google/apiclient:^2.12 phpmailer/phpmailer
