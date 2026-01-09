@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/mailer.php';
 require_once 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: forgot_password.php');
+    header('Location: ' . $base_url . 'Login/forgot_password.php');
     exit();
 }
 
@@ -13,7 +13,7 @@ $stmt = $pdo->prepare('SELECT id, name FROM users WHERE email = ? LIMIT 1');
 $stmt->execute([$email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$user) {
-    header('Location: forgot_password.php?error=' . urlencode('No user found with that email.'));
+    header('Location: ' . $base_url . 'Login/forgot_password.php?error=' . urlencode('No user found with that email.'));
     exit();
 }
 
@@ -35,11 +35,11 @@ $ins->execute([$user['id'], $code_hash, $expires]);
 $body = "Hello {$user['name']},<br><br>Your password reset code is: <strong>{$code}</strong><br>The code expires in 15 minutes.<br><br>If you didn't request this, ignore this email.";
 $sent = send_mail($email, $user['name'], 'Password reset code', $body);
 if ($sent) {
-    header('Location: verify_reset.php?email=' . urlencode($email) . '&success=' . urlencode('Verification code sent.'));
+    header('Location: ' . $base_url . 'Login/verify_reset.php?email=' . urlencode($email) . '&success=' . urlencode('Verification code sent.'));
     exit();
 } else {
     // Show more detail for debugging
     error_log("Failed to send reset email to $email");
-    header('Location: forgot_password.php?error=' . urlencode('Failed to send email. Check mail config and see error logs.'));
+    header('Location: ' . $base_url . 'Login/forgot_password.php?error=' . urlencode('Failed to send email. Check mail config and see error logs.'));
     exit();
 }

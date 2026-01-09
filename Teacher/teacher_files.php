@@ -6,15 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teacher | Files</title>
   <!-- Core and Page-Specific CSS -->
+<<<<<<< HEAD
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Teacher/teacher_style.css">
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Teacher/teacher_files.css">
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleFiles.css">
+=======
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Teacher/teacher_style.css">
+  <link rel="stylesheet" href="<?= $base_url ?>Teacher/teacher_files.css">
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/stylefiles.css">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
 </head>
 <body>
 
   <!-- ===== HEADER ===== -->
   <header class="header">
+<<<<<<< HEAD
   <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="Logo">
+=======
+  <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
   <h1>Teacher</h1>
   </header>
 
@@ -24,9 +35,15 @@
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="menu">
+<<<<<<< HEAD
         <a href="<?php echo $base_url . SITE_BASE; ?>Teacher/teacher_dashboard.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="">Dashboard</a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Teacher/teacher_students.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/User.png" alt="">Students</a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Teacher/teacher_files.php" class="active"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Files</a>
+=======
+        <a href="<?= $base_url ?>Teacher/teacher_dashboard.php"><img src="<?= $base_url ?>assets/dashboard.png" alt="">Dashboard</a>
+        <a href="<?= $base_url ?>Teacher/teacher_students.php"><img src="<?= $base_url ?>assets/User.png" alt="">Students</a>
+        <a href="<?= $base_url ?>Teacher/teacher_files.php" class="active"><img src="<?= $base_url ?>assets/google-docs.png" alt="">Files</a>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
       </div>
 
       <!-- ===== SIDEBAR FOOTER ===== -->
@@ -41,7 +58,11 @@
           ?>
         </div>
         <button class="signout" id="signoutBtn">
+<<<<<<< HEAD
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Logout Icon">
+=======
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
           Sign Out
         </button>
       </div>
@@ -197,10 +218,14 @@
       finally { uploadBtn.disabled = false; uploadBtn.textContent = 'Upload'; }
     });
   </script>
+<<<<<<< HEAD
   <script>
     window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
   </script>
   <script src="<?php echo $base_url . SITE_BASE; ?>Teacher/scriptTeacher.js"></script>
+=======
+  <script src="<?= $base_url ?>Teacher/scriptTeacher.js"></script>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
 
 </body>
 </html>

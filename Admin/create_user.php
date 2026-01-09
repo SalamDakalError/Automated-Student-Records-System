@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Login/db.php';
+require_once __DIR__ . '/../Login/config.php';
 session_start();
 header('Content-Type: application/json');
 
@@ -11,7 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     }
     // non-AJAX fallback: redirect back
     $_SESSION['flash_create_user_error'] = 'Invalid request method';
+<<<<<<< HEAD
     header('Location: ' . $base_url . SITE_BASE . 'Admin/adminDashboard.php');
+=======
+    header('Location: ' . $base_url . 'Admin/adminDashboard.php');
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
     exit;
 }
 
@@ -28,6 +33,7 @@ $advisory = trim($_POST['advisory'] ?? '');
 $allowed = ['teacher','adviser','principal','admin'];
 if (!in_array($role, $allowed)) {
     if ($isAjax) { echo json_encode(['success' => false, 'error' => 'Invalid role']); exit; }
+<<<<<<< HEAD
     $_SESSION['flash_create_user_error'] = 'Invalid role'; header('Location: ' . $base_url . SITE_BASE . 'Admin/adminDashboard.php'); exit;
 }
 if ($name === '' || $email === '' || $password === '' || $confirm === '') {
@@ -45,6 +51,25 @@ if ($password !== $confirm) {
 if (strlen($password) < 6) {
     if ($isAjax) { echo json_encode(['success' => false, 'error' => 'Password too short']); exit; }
     $_SESSION['flash_create_user_error'] = 'Password too short'; header('Location: ' . $base_url . SITE_BASE . 'Admin/adminDashboard.php'); exit;
+=======
+    $_SESSION['flash_create_user_error'] = 'Invalid role'; header('Location: ' . $base_url . 'Admin/adminDashboard.php'); exit;
+}
+if ($name === '' || $email === '' || $password === '' || $confirm === '') {
+    if ($isAjax) { echo json_encode(['success' => false, 'error' => 'All fields are required']); exit; }
+    $_SESSION['flash_create_user_error'] = 'All fields are required'; header('Location: ' . $base_url . 'Admin/adminDashboard.php'); exit;
+}
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if ($isAjax) { echo json_encode(['success' => false, 'error' => 'Invalid email address']); exit; }
+    $_SESSION['flash_create_user_error'] = 'Invalid email address'; header('Location: ' . $base_url . 'Admin/adminDashboard.php'); exit;
+}
+if ($password !== $confirm) {
+    if ($isAjax) { echo json_encode(['success' => false, 'error' => 'Passwords do not match']); exit; }
+    $_SESSION['flash_create_user_error'] = 'Passwords do not match'; header('Location: ' . $base_url . 'Admin/adminDashboard.php'); exit;
+}
+if (strlen($password) < 6) {
+    if ($isAjax) { echo json_encode(['success' => false, 'error' => 'Password too short']); exit; }
+    $_SESSION['flash_create_user_error'] = 'Password too short'; header('Location: ' . $base_url . 'Admin/adminDashboard.php'); exit;
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
 }
 
 try{
@@ -53,7 +78,11 @@ try{
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         if ($isAjax) { echo json_encode(['success'=>false,'error'=>'Email already in use']); exit; }
+<<<<<<< HEAD
         $_SESSION['flash_create_user_error'] = 'Email already in use'; header('Location: ' . $base_url . SITE_BASE . 'Admin/adminDashboard.php'); exit;
+=======
+        $_SESSION['flash_create_user_error'] = 'Email already in use'; header('Location: ' . $base_url . 'Admin/adminDashboard.php'); exit;
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
     }
 
     // Follow the provided `users` table schema: insert only into columns that exist.

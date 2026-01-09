@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     unset($_SESSION['password_reset_user_id']);
     unset($_SESSION['password_reset_expires']);
 
-    header('Location: loginpage.php?success=' . urlencode('Password updated. You can now login.'));
+    header('Location: ' . $base_url . 'Login/loginpage.php?success=' . urlencode('Password updated. You can now login.'));
     exit();
 }
 
@@ -76,7 +76,12 @@ $email = $_GET['email'] ?? '';
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Set New Password</title>
+<<<<<<< HEAD
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Login/styleKKMLogin.css">
+=======
+  <?php require_once 'config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Login/styleKKMLogin.css">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
   <style>
     .form-row { margin-top:8px; }
     .actions { margin-top:12px; display:flex; gap:8px; align-items:center; }
@@ -86,7 +91,11 @@ $email = $_GET['email'] ?? '';
 <body>
   <div class="login-container">
     <div class="login-left">
+<<<<<<< HEAD
       <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" class="school-logo" alt="School Logo">
+=======
+      <img src="<?= $base_url ?>assets/OIP.png" class="school-logo" alt="School Logo">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
       <h2>Set a new password</h2>
       <p class="subtitle">Enter a new password for the account shown below.</p>
 
@@ -101,7 +110,11 @@ $email = $_GET['email'] ?? '';
         }
       ?>
 
+<<<<<<< HEAD
       <form method="post" action="<?php echo $base_url . SITE_BASE; ?>Login/new_password.php">
+=======
+      <form method="post" action="<?= $base_url ?>Login/new_password.php">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
         <div class="form-row">
           <label>Email</label>
           <input type="email" name="email" required value="<?= htmlspecialchars($email) ?>" readonly>
@@ -119,7 +132,11 @@ $email = $_GET['email'] ?? '';
 
         <div class="actions">
           <button type="submit" class="signin-btn">Save new password</button>
+<<<<<<< HEAD
           <button type="button" class="secondary-link" onclick="window.location.href='<?php echo $base_url . SITE_BASE; ?>Login/loginpage.php'">Back to sign in</button>
+=======
+          <button type="button" class="secondary-link" onclick="window.location.href='<?= $base_url ?>Login/loginpage.php'">Back to sign in</button>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
         </div>
       </form>
     </div>

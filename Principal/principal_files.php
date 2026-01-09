@@ -1,10 +1,12 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
+<?php require_once __DIR__ . '/../Login/config.php'; ?>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Principal - Files</title>
+<<<<<<< HEAD
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Principal/stylePrincipalDashboard.css">
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Principal/principal_files.css">
 </head>
@@ -86,6 +88,17 @@
       // Sign out functionality
       var signoutBtn = document.getElementById('signoutBtn');
       if (signoutBtn) {
+=======
+  <link rel="stylesheet" href="<?= $base_url ?>Principal/stylePrincipalDashboard.css">
+  <link rel="stylesheet" href="<?= $base_url ?>Principal/principal_files.css">
+</head>
+<body>
+  </div>
+
+  <script src="<?= $base_url ?>Principal/scriptPrincipal.js"></script>
+</body>
+</html>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
         signoutBtn.addEventListener('click', function() {
           if(confirm('Are you sure you want to sign out?')) {
             window.location.href = (window.BASE_URL || '../') + 'Login/logout.php';

@@ -8,24 +8,42 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Principal Dashboard</title>
+<<<<<<< HEAD
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Principal/stylePrincipalDashboard.css?v=<?php echo time(); ?>">
+=======
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Principal/stylePrincipalDashboard.css?v=<?= time(); ?>">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
 </head>
 <body>
   <!-- HEADER BAR -->
   <header class="header">
+<<<<<<< HEAD
     <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="DepEd Logo">
+=======
+    <img src="<?= $base_url ?>assets/OIP.png" alt="DepEd Logo">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
     <h1>Principal</h1>
   </header>
   <div class="dashboard-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <nav class="menu">
+<<<<<<< HEAD
         <a href="<?php echo $base_url . SITE_BASE; ?>Principal/principalDashboard.php" class="active">
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="Dashboard Icon">
           Dashboard
         </a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Principal/principal_files.php">
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="Files Icon">
+=======
+        <a href="<?= $base_url ?>Principal/principalDashboard.php" class="active">
+          <img src="<?= $base_url ?>assets/dashboard.png" alt="Dashboard Icon">
+          Dashboard
+        </a>
+        <a href="<?= $base_url ?>Principal/principal_files.php">
+          <img src="<?= $base_url ?>assets/google-docs.png" alt="Files Icon">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
           Files
         </a>
       </nav>
@@ -42,7 +60,11 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
+<<<<<<< HEAD
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Logout Icon">
+=======
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
           Sign Out
         </button>
       </div>
@@ -86,10 +108,14 @@ session_start();
     </main>
   </div>
   <!-- JavaScript -->
+<<<<<<< HEAD
   <script>
     window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
   </script>
   <script src="<?php echo $base_url . SITE_BASE; ?>Principal/scriptPrincipal.js"></script>
+=======
+  <script src="<?= $base_url ?>Principal/scriptPrincipal.js"></script>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
   <script>
     console.log('Principal Dashboard inline script loaded');
     // Load all files and dashboard counts when page loads

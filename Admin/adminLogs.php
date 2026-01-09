@@ -7,12 +7,21 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Logs</title>
+<<<<<<< HEAD
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Admin/styleAdmin.css">
+=======
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Admin/styleAdmin.css">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
 </head>
 <body>
   <!-- ===== HEADER ===== -->
   <header class="header">
+<<<<<<< HEAD
     <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="Logo">
+=======
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
     <h1>Admin Dashboard</h1>
   </header>
 
@@ -21,12 +30,21 @@ session_start();
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="menu">
+<<<<<<< HEAD
         <a href="<?php echo $base_url . SITE_BASE; ?>Admin/adminDashboard.php" id="userTab">
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="Dashboard">
           Users
         </a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Admin/adminLogs.php" id="logsTab" class="active">
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/User.png" alt="Logs">
+=======
+        <a href="<?= $base_url ?>Admin/adminDashboard.php" id="userTab">
+          <img src="<?= $base_url ?>assets/dashboard.png" alt="Dashboard">
+          Users
+        </a>
+        <a href="<?= $base_url ?>Admin/adminLogs.php" id="logsTab" class="active">
+          <img src="<?= $base_url ?>assets/User.png" alt="Logs">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
           Logs
         </a>
       </div>
@@ -42,7 +60,11 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
+<<<<<<< HEAD
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Sign Out">
+=======
+          <img src="<?= $base_url ?>assets/out.png" alt="Sign Out">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
           Logout
         </button>
       </div>

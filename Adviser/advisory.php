@@ -39,6 +39,7 @@ if (!empty($assignedAdvisory)) {
   }
 }
 ?>
+<?php require_once __DIR__ . '/../Login/config.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,8 +47,13 @@ if (!empty($assignedAdvisory)) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Advisory</title>
   <!-- Core and Page-Specific CSS -->
+<<<<<<< HEAD
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleAdviserDashboard.css">
   <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleFiles.css">
+=======
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/styleAdviserDashboard.css">
+  <link rel="stylesheet" href="<?= $base_url ?>Adviser/stylefiles.css">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
   <style>
     /* Simple modal styles for grade display */
     #gradeModal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.5); }
@@ -62,7 +68,11 @@ if (!empty($assignedAdvisory)) {
 
   <!-- ===== HEADER ===== -->
   <header class="header">
+<<<<<<< HEAD
     <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="Logo">
+=======
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
     <h1>Adviser</h1>
   </header>
 
@@ -72,10 +82,17 @@ if (!empty($assignedAdvisory)) {
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="menu">
+<<<<<<< HEAD
         <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/adviserDashboard.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="">Dashboard</a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/student_list.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/User.png" alt="">Students</a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/advisory.php" class="active"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Advisory</a>
         <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/files.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Files</a>
+=======
+        <a href="<?= $base_url ?>Adviser/adviserDashboard.php"><img src="<?= $base_url ?>assets/dashboard.png" alt="">Dashboard</a>
+        <a href="<?= $base_url ?>Adviser/student_list.php"><img src="<?= $base_url ?>assets/User.png" alt="">Students</a>
+        <a href="<?= $base_url ?>Adviser/advisory.php" class="active"><img src="<?= $base_url ?>assets/google-docs.png" alt="">Advisory</a>
+        <a href="<?= $base_url ?>Adviser/files.php"><img src="<?= $base_url ?>assets/google-docs.png" alt="">Files</a>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
       </div>
 
       <!-- ===== SIDEBAR FOOTER ===== -->
@@ -90,7 +107,11 @@ if (!empty($assignedAdvisory)) {
           ?>
         </div>
         <button class="signout" id="signoutBtn">
+<<<<<<< HEAD
           <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Logout Icon">
+=======
+          <img src="<?= $base_url ?>assets/out.png" alt="Logout Icon">
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
           Sign Out
         </button>
       </div>
@@ -285,9 +306,13 @@ if (!empty($assignedAdvisory)) {
     })();
   </script>
 
+<<<<<<< HEAD
   <script>
     window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
   </script>
   <script src="<?php echo $base_url . SITE_BASE; ?>Adviser/scriptAdviser.js"></script>
+=======
+  <script src="<?= $base_url ?>Adviser/scriptAdviser.js"></script>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
   </body>
   </html>

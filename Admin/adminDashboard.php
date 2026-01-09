@@ -8,12 +8,13 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin</title>
-  <link rel="stylesheet" href="styleAdmin.css">
+  <?php require_once '../Login/config.php'; ?>
+  <link rel="stylesheet" href="<?= $base_url ?>Admin/styleAdmin.css">
 </head>
 <body>
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?= $base_url ?>assets/OIP.png" alt="Logo">
     <h1>Admin Dashboard</h1>
   </header>
 
@@ -22,12 +23,12 @@ session_start();
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="menu">
-        <a href="adminDashboard.php" id="userTab" class="active">
-          <img src="../assets/dashboard.png" alt="Dashboard">
+        <a href="<?= $base_url ?>Admin/adminDashboard.php" id="userTab" class="active">
+          <img src="<?= $base_url ?>assets/dashboard.png" alt="Dashboard">
           Users
         </a>
-        <a href="adminLogs.php" id="logsTab">
-          <img src="../assets/User.png" alt="Logs">
+        <a href="<?= $base_url ?>Admin/adminLogs.php" id="logsTab">
+          <img src="<?= $base_url ?>assets/User.png" alt="Logs">
           Logs
         </a>
       </div>
@@ -44,7 +45,7 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Sign Out">
+          <img src="<?= $base_url ?>assets/out.png" alt="Sign Out">
           Logout
         </button>
       </div>
@@ -140,9 +141,13 @@ session_start();
     </main>
   </div>
 
+<<<<<<< HEAD
   <script>
     window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
   </script>
   <script src="<?php echo $base_url . SITE_BASE; ?>Admin/scriptAdmin.js"></script>
+=======
+  <script src="<?= $base_url ?>Admin/scriptAdmin.js"></script>
+>>>>>>> 992314625673de62f89b7894eae8d5c6b20176cf
 </body>
 </html>
