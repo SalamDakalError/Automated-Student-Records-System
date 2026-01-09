@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     signoutBtn.addEventListener('click', function(e) {
       e.preventDefault();
       if (confirm('Are you sure you want to sign out?')) {
-        window.location.href = '../Login/logout.php';
+        window.location.href = (window.BASE_URL || '../') + 'Login/logout.php';
       }
     });
   }

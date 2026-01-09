@@ -33,7 +33,7 @@ function initAdmin() {
     signoutBtn.addEventListener('click', function(e) {
       e.preventDefault();
       if (confirm('Are you sure you want to sign out?')) {
-        window.location.href = '../Login/logout.php';
+        window.location.href = (window.BASE_URL || '../') + 'Login/logout.php';
       }
     });
   }
@@ -100,7 +100,7 @@ function initAdmin() {
           createAlert.style.display = 'block'; createAlert.style.background='#ffe6e6'; createAlert.style.color='#a70000'; createAlert.textContent = data.error || 'Failed to create user';
         } else {
           // on success, redirect back to admin page with confirmation so page state refreshes
-          window.location.href = 'adminDashboard.php?created=1';
+          window.location.href = (window.BASE_URL || '') + 'Admin/adminDashboard.php?created=1';
         }
       } catch (err) {
         createAlert.style.display = 'block'; createAlert.style.background='#ffe6e6'; createAlert.style.color='#a70000'; createAlert.textContent = 'Error creating user';

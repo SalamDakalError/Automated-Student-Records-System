@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adviser | Files</title>
   <!-- Core and Page-Specific CSS -->
-  <link rel="stylesheet" href="styleAdviserDashboard.css">
-  <link rel="stylesheet" href="stylefiles.css">
+  <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleAdviserDashboard.css">
+  <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleFiles.css">
 </head>
 <body>
 
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="Logo">
     <h1>Adviser</h1>
   </header>
 
@@ -23,10 +23,10 @@
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="menu">
-        <a href="adviserDashboard.php"><img src="../assets/dashboard.png" alt="">Dashboard</a>
-        <a href="student_list.php"><img src="../assets/User.png" alt="">Students</a>
-        <a href="advisory.php"><img src="../assets/google-docs.png" alt="">Advisory</a>
-        <a href="files.php" class="active"><img src="../assets/google-docs.png" alt="">Files</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/adviserDashboard.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="">Dashboard</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/student_list.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/User.png" alt="">Students</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/advisory.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Advisory</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/files.php" class="active"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Files</a>
       </div>
 
       <!-- ===== SIDEBAR FOOTER ===== -->
@@ -41,7 +41,7 @@
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Logout Icon">
           Sign Out
         </button>
       </div>
@@ -109,7 +109,10 @@
     closeModal.addEventListener("click", () => modal.style.display = "none");
     window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
   </script>
-  <script src="scriptAdviser.js"></script>
+  <script>
+    window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
+  </script>
+  <script src="<?php echo $base_url . SITE_BASE; ?>Adviser/scriptAdviser.js"></script>
 
 </body>
 </html>

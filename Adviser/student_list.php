@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adviser | Students</title>
-  <link rel="stylesheet" href="styleAdviserDashboard.css">
-  <link rel="stylesheet" href="stylefiles.css">
+  <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleAdviserDashboard.css">
+  <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Adviser/styleFiles.css">
 </head>
 <body>
 
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="Logo">
     <h1>Adviser</h1>
   </header>
 
@@ -21,10 +21,10 @@
     
     <aside class="sidebar">
       <div class="menu">
-        <a href="adviserDashboard.php"><img src="../assets/dashboard.png" alt="">Dashboard</a>
-        <a href="student_list.php" class="active"><img src="../assets/User.png" alt="">Students</a>
-        <a href="advisory.php"><img src="../assets/google-docs.png" alt="">Advisory</a>
-        <a href="files.php"><img src="../assets/google-docs.png" alt="">Files</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/adviserDashboard.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="">Dashboard</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/student_list.php" class="active"><img src="<?php echo $base_url . SITE_BASE; ?>assets/User.png" alt="">Students</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/advisory.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Advisory</a>
+        <a href="<?php echo $base_url . SITE_BASE; ?>Adviser/files.php"><img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="">Files</a>
       </div>
 
       <div class="sidebar-footer">
@@ -38,7 +38,7 @@
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Logout Icon">
           Sign Out
         </button>
       </div>
@@ -117,6 +117,9 @@
   </div>
 
   <!-- ===== JAVASCRIPT FILE LINK ===== -->
-  <script src="scriptAdviser.js"></script>
+  <script>
+    window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
+  </script>
+  <script src="<?php echo $base_url . SITE_BASE; ?>Adviser/scriptAdviser.js"></script>
 </body>
 </html>

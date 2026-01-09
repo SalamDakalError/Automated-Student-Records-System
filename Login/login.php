@@ -1,11 +1,14 @@
 <?php
+
 require_once 'db.php';
+require_once 'config.php';
+
 
 $redirects = [
-    'adviser'   => '../Adviser/adviserDashboard.php',
-    'teacher'   => '../Teacher/teacher_dashboard.php',
-    'principal' => '../Principal/principalDashboard.php',
-    'admin'     => '../Admin/adminDashboard.php'
+    'adviser'   => $base_url . 'Adviser/adviserDashboard.php',
+    'teacher'   => $base_url . 'Teacher/teacher_dashboard.php',
+    'principal' => $base_url . 'Principal/principalDashboard.php',
+    'admin'     => $base_url . 'Admin/adminDashboard.php'
 ];
 
 
@@ -14,7 +17,7 @@ if (isset($_POST['btnSignIn'])) {
     $password = $_POST['txtPassword'];
 
     if (empty($email) || empty($password)) {
-        header("Location: loginpage.php?error=" . urlencode("Email and password are required!"));
+        header("Location: {$base_url}Login/loginpage.php?error=" . urlencode("Email and password are required!"));
         exit();
     }
 
@@ -55,11 +58,11 @@ if (isset($_POST['btnSignIn'])) {
             header("Location: " . $redirects[$user['role']]);
             exit();
         } else {
-            header("Location: loginpage.php?error=" . urlencode("Invalid role! Contact administrator."));
+            header("Location: {$base_url}Login/loginpage.php?error=" . urlencode("Invalid role! Contact administrator."));
             exit();
         }
     } else {
-        header("Location: loginpage.php?error=" . urlencode("Invalid email or password!"));
+        header("Location: {$base_url}loginpage.php?error=" . urlencode("Invalid email or password!"));
         exit();
     }
 } else {

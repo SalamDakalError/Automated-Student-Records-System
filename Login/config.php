@@ -5,7 +5,7 @@
 // Create credentials at https://console.developers.google.com/apis/credentials
 define('GOOGLE_CLIENT_ID', '4602130300-crk5prbp89cnhtom33et628276j0povu.apps.googleusercontent.com');
 define('GOOGLE_CLIENT_SECRET', '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');
-define('GOOGLE_REDIRECT_URI', 'http://localhost/Automated-Student-Records-Processing-System-main/Login/google_callback.php');
+define('GOOGLE_REDIRECT_URI', 'http://157.230.90.77/Login/google_callback.php');
 
 // SMTP / Mail settings for PHPMailer (Gmail SMTP)
 define('SMTP_HOST', 'smtp.gmail.com');
@@ -18,8 +18,13 @@ define('SMTP_SECURE', 'tls');
 define('MAIL_FROM', 'johnpaulmanarang07@gmail.com');
 define('MAIL_FROM_NAME', 'School Admin');
 
-// Site URL
-define('SITE_BASE', 'http://localhost/Automated-Student-Records-Processing-System-main');
+
+// Site URL (update for IIS deployment)
+// Use '/' if deployed at root, or '/subfolder/' if in a subfolder
+define('SITE_BASE', '/');
+
+// Base URL variable for easy path management in PHP
+$base_url = SITE_BASE;
 
 // Note: Install dependencies: run
 // composer require google/apiclient:^2.12 phpmailer/phpmailer

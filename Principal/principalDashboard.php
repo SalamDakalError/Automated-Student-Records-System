@@ -8,24 +8,24 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Principal Dashboard</title>
-  <link rel="stylesheet" href="stylePrincipalDashboard.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Principal/stylePrincipalDashboard.css?v=<?php echo time(); ?>">
 </head>
 <body>
   <!-- HEADER BAR -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="DepEd Logo">
+    <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="DepEd Logo">
     <h1>Principal</h1>
   </header>
   <div class="dashboard-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <nav class="menu">
-        <a href="principal_dashboard.php" class="active">
-          <img src="../assets/dashboard.png" alt="Dashboard Icon">
+        <a href="<?php echo $base_url . SITE_BASE; ?>Principal/principalDashboard.php" class="active">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="Dashboard Icon">
           Dashboard
         </a>
-        <a href="principal_files.php">
-          <img src="../assets/google-docs.png" alt="Files Icon">
+        <a href="<?php echo $base_url . SITE_BASE; ?>Principal/principal_files.php">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/google-docs.png" alt="Files Icon">
           Files
         </a>
       </nav>
@@ -42,7 +42,7 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Logout Icon">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Logout Icon">
           Sign Out
         </button>
       </div>
@@ -86,7 +86,10 @@ session_start();
     </main>
   </div>
   <!-- JavaScript -->
-  <script src="scriptPrincipal.js"></script>
+  <script>
+    window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
+  </script>
+  <script src="<?php echo $base_url . SITE_BASE; ?>Principal/scriptPrincipal.js"></script>
   <script>
     console.log('Principal Dashboard inline script loaded');
     // Load all files and dashboard counts when page loads

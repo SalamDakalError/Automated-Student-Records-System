@@ -7,12 +7,12 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Logs</title>
-  <link rel="stylesheet" href="styleAdmin.css">
+  <link rel="stylesheet" href="<?php echo $base_url . SITE_BASE; ?>Admin/styleAdmin.css">
 </head>
 <body>
   <!-- ===== HEADER ===== -->
   <header class="header">
-    <img src="../assets/OIP.png" alt="Logo">
+    <img src="<?php echo $base_url . SITE_BASE; ?>assets/OIP.png" alt="Logo">
     <h1>Admin Dashboard</h1>
   </header>
 
@@ -21,12 +21,12 @@ session_start();
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="menu">
-        <a href="adminDashboard.php" id="userTab">
-          <img src="../assets/dashboard.png" alt="Dashboard">
+        <a href="<?php echo $base_url . SITE_BASE; ?>Admin/adminDashboard.php" id="userTab">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/dashboard.png" alt="Dashboard">
           Users
         </a>
-        <a href="adminLogs.php" id="logsTab" class="active">
-          <img src="../assets/User.png" alt="Logs">
+        <a href="<?php echo $base_url . SITE_BASE; ?>Admin/adminLogs.php" id="logsTab" class="active">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/User.png" alt="Logs">
           Logs
         </a>
       </div>
@@ -42,7 +42,7 @@ session_start();
           ?>
         </div>
         <button class="signout" id="signoutBtn">
-          <img src="../assets/out.png" alt="Sign Out">
+          <img src="<?php echo $base_url . SITE_BASE; ?>assets/out.png" alt="Sign Out">
           Logout
         </button>
       </div>
@@ -80,6 +80,9 @@ session_start();
     </main>
   </div>
 
-  <script src="scriptAdmin.js"></script>
+  <script>
+    window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
+  </script>
+  <script src="<?php echo $base_url . SITE_BASE; ?>Admin/scriptAdmin.js"></script>
 </body>
 </html>

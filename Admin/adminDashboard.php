@@ -140,6 +140,9 @@ session_start();
     </main>
   </div>
 
-  <script src="scriptAdmin.js"></script>
+  <script>
+    window.BASE_URL = '<?php echo $base_url . SITE_BASE; ?>';
+  </script>
+  <script src="<?php echo $base_url . SITE_BASE; ?>Admin/scriptAdmin.js"></script>
 </body>
 </html>
